@@ -1,20 +1,20 @@
 <script setup>
-  import BreakingBadCards from '@/components/BreakingBadCards.vue';
+  import BreakingBadCardsSuspense from '@/components/BreakingBadCardsSuspense.vue'
+  import RickMortyCards from '@/components/RickMortyCards.vue'
+  import Hero from './components/Hero.vue'
+  import { ref } from 'vue'
 
+  const isBreakingBad = ref(false)
 </script>
 
 <template>
   <main>
-    <h1>Hero</h1>
-    <Suspense>
-      <template #default>
-        <BreakingBadCards />
-      </template>
-      <template #fallback>
-        <div>
-          <p>Loading...</p>
-        </div>
-      </template>
-    </Suspense>
+    <Hero
+      :isBreakingBad="isBreakingBad"
+      @selectShow="isBreakingBad = !isBreakingBad"
+    />
+    <KeepAlive>
+      <Component :is="isBreakingBad ? BreakingBadCardsSuspense : RickMortyCards" />
+    </KeepAlive>
   </main>
 </template>
